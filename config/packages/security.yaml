@@ -1,0 +1,43 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    providers:
+        entity_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_CASHIER, ROLE_USER]
+        ROLE_ADMIN: [ROLE_CASHIER, ROLE_USER]
+        ROLE_CASHER: [ROLE_USER]
+        ROLE_AGENCY_OWNER: [ROLE_AGENCY_ADMIN, ROLE_AGENCY_CASHIER,ROLE_USER]
+        ROLE_AGENCY_ADMIN: [ROLE_AGENCY_CASHIER,ROLE_USER]
+        ROLE_AGENCY_CASHER: [ROLE_USER]
+        
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        login:
+            pattern: ^/api/login
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        api:
+            pattern:  ^/api
+            stateless: true
+            anonymous: false
+            provider: entity_provider
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+    access_control:
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: [IS_AUTHENTICATED_FULLY] }

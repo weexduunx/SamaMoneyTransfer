@@ -1,0 +1,9 @@
+login_check:
+    path:     /api/login_check
+    methods:  [POST]
+
+user_account:
+    path: /api/account
+    methods: [GET]
+    controller: App\Controller\AccountController::account
+    

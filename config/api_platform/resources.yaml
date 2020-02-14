@@ -1,0 +1,81 @@
+resources:
+  App\Entity\Roles: 
+    attributes:
+      normalization_context:
+        groups: ['role.read']
+      denormalization_context:
+        api_allow_update: true
+        groups: ['role.write']
+    collectionOperations:
+      post: ~
+      get: ~
+    itemOperations:
+      get: ~
+      put: ~
+      delete: ~
+
+  App\Entity\User: 
+    attributes:
+      filters: ["users.search_filter"]
+      denormalization_context:
+        groups: ['user.write']
+      normalization_context: 
+        groups: ['user.read']
+    collectionOperations:
+      post:
+        method: 'POST' 
+        security: 'is_granted("ROLE_ADMIN") or is_granted("ROLE_AGENCY_OWNER")'
+        security_message: 'Only admin or partner add  user'
+      get: 
+        method: 'GET'
+        security: 'is_granted("ROLE_ADMIN")'
+        security_message: 'Only admin can access these resources'
+        
+    itemOperations:
+      get:
+        method: 'GET'
+        security: 'is_granted("ROLE_ADMIN")'
+        security_message: 'Only admin access this resource'
+
+      partner_block: 
+        denormalization_context: 
+          groups: ['block.update']
+        normalization_context:
+          groups: ['block.read']
+        security: 'is_granted("ROLE_ADMIN") or is_granted("ROLE_AGENCY_OWNER")'
+        security_message: 'Only admin or partner can block user'
+        method: 'PUT'
+        path: '/users/{id}/block'
+        requirements:
+          id: '\d+'
+        
+  App\Entity\PartnerAccount: 
+    attributes:
+      filters: ["partnerAccounts.search_filter"]
+      normalization_context:
+        groups: ['account.read']
+      denormalization_context:
+        groups: ['account.write']
+    collectionOperations:
+      post: 
+        path: '/partners/accounts'
+      get: 
+        path:
+          '/partners/accounts'
+    itemOperations:
+      get: 
+        path:
+          '/partners/accounts/{id}'
+      put: 
+        path:
+          '/partners/accounts/{id}'
+
+  App\Entity\Deposit: ~
+
+
+
+      
+ 
+     
+
+ 

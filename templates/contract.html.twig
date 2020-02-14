@@ -1,0 +1,39 @@
+<div>
+    <h1>Contrat d'ouverture de compte Partenaire</h1>
+    <div class="header">
+        <h2>Informations du partenaire</h2>
+        <ul>
+            <li><strong>Prenom:</strong> {{partner.fName}}</li>
+            <li><strong>Nom:</strong> {{partner.lName}}</li>
+            <li><strong>Tel:</strong> {{partner.phone}}</li>
+            <li><strong>Email:</strong> {{partner.email}}</li>
+            <li><strong>Address:</strong> {{partner.address}}</li>
+            <li><strong>Ninea:</strong> {{partner.ninea}}</li>
+            <li><strong>RC:</strong> {{partner.rc}}</li>
+        </ul>
+    </div>
+    <div class="body">
+        <p>
+            CET ACCORD est conclu ce jour de {{account.createdAt | date() }} entre
+            Mr. {{partner.fName ~ ' ' ~ partner.lName}} 
+            disposant du numero de registre du commerce: {{partner.rc}} et du Ninea: 
+            {{partner.ninea}}et La Societe denomee <strong>MTAPP</strong>
+        </p>
+        <p>
+            Les parties ont convenu et concluent par les présentes le 
+            présent accord pour l'ouverture du compte partenaire 
+            № : <span>{{account.accountNumber}}</span> au 
+            nom de Mr {{partner.fName ~ ' ' ~ partner.lName}}. 
+            Ce compte lui permettra, apres un depot minimum de 500000 franc
+             avant 48 heures apres l'ouverture du compte de, de proceder a 
+             des activites de transfer et retrait d'argent.
+        </p>
+    </div>
+
+    <div class="footer">
+       Fait le {{account.createdAt | date()}} par {{creator.fName ~ ' ' ~ creator.lName}}, Tel: {{creator.phone}}
+    </div>
+    
+</div>
+
+
